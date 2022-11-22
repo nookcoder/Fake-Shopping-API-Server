@@ -1,11 +1,14 @@
 import express, {Express, Request, Response} from "express";
 import {initOrGetSequelize} from "./src/lib/sequelize";
-import userRouter from "./src/api/user";
 import bodyParser from 'body-parser';
+import {userRouter} from "./src/api";
 
 const app: Express = express();
 const port = 4000;
 
+/**
+ * Express 초기화
+ */
 function initExpressApp(){
     app.use(bodyParser.json());
     app.use('/user', userRouter);
@@ -17,6 +20,9 @@ function initExpressApp(){
     });
 }
 
+/**
+ * API 서버 실행
+ */
 export async function startFakeServer() {
     const sequelize = await initOrGetSequelize();
     try{

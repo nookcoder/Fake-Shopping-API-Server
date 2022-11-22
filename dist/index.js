@@ -15,13 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.startFakeServer = void 0;
 const express_1 = __importDefault(require("express"));
 const sequelize_1 = require("./src/lib/sequelize");
-const user_1 = __importDefault(require("./src/api/user"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const api_1 = require("./src/api");
 const app = (0, express_1.default)();
 const port = 4000;
+/**
+ * Express 초기화
+ */
 function initExpressApp() {
     app.use(body_parser_1.default.json());
-    app.use('/user', user_1.default);
+    app.use('/user', api_1.userRouter);
     app.get('/', (req, res) => {
         res.send("Hello world");
     });
@@ -29,6 +32,9 @@ function initExpressApp() {
         console.log(`${port}: Server is running`);
     });
 }
+/**
+ * API 서버 실행
+ */
 function startFakeServer() {
     return __awaiter(this, void 0, void 0, function* () {
         const sequelize = yield (0, sequelize_1.initOrGetSequelize)();
