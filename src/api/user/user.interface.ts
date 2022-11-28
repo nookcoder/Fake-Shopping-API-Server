@@ -6,3 +6,8 @@ export interface ICreateNewUser {
     account: string | undefined;
     password: string | undefined;
 }
+
+export interface ILoginInput {
+    account: string;
+    password: string;
+}

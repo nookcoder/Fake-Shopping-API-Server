@@ -1,7 +1,7 @@
-import {ICreateNewUser} from "./user.interface";
+import {ICreateNewUser, ILoginInput} from "./user.interface";
 
 export class CreateNewUser {
-     address: string | undefined;
+    address: string | undefined;
     account: string | undefined;
     name: string | undefined;
     password: string | undefined;
@@ -16,4 +16,14 @@ export class CreateNewUser {
         this.account = input.account;
         this.password = input.password;
     }
+}
+
+export class LoginInput{
+    account: string;
+    password: string;
+    constructor(props: ILoginInput) {
+        this.account = props.account;
+        this.password = props.password;
+    }
+
 }

@@ -1,5 +1,5 @@
 import express, {Express, Request, Response} from "express";
-import {initOrGetSequelize} from "./src/lib/sequelize";
+import {initOrGetSequelize} from "./src/modules/sequelize";
 import bodyParser from 'body-parser';
 import {userRouter} from "./src/api";
 

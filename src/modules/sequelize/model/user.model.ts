@@ -29,6 +29,7 @@ export type UserAttributes = {
     password: string; // 비밀번호
     createdAt: Date; // 생성날짜
     updatedAt: Date; // 수정 날짜
+    rt: string; // 갱신 토큰
 }
 
 
@@ -42,6 +43,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
     declare address: CreationOptional<string>;
     declare account: CreationOptional<string>;
     declare password: CreationOptional<string>;
+    declare rt: CreationOptional<string>;
 }
 
 User.init({
@@ -59,7 +61,12 @@ User.init({
         type: DataTypes.STRING,
     }, // 비밀번호, Hash 를 적용한 값이 들어갑니다
     createdAt: DataTypes.DATE, // 생성 날짜
-    updatedAt: DataTypes.DATE // 수정 날짜
+    updatedAt: DataTypes.DATE, // 수정 날짜,
+    rt: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true,
+    } // 갱신토큰
 }, {
     sequelize,
     tableName: "user",
@@ -76,18 +83,6 @@ User.init({
         }
     },
     hooks:{
-        async beforeCreate(user, options) {
-            if(user.password){
-                const hashedPassword = await bcrypt.hash(user.password, 10);
-                user.password = hashedPassword;
-            }
-        },
-
-        async beforeUpdate(user,options) {
-            const hashedPassword = await bcrypt.hash(user.password, 10);
-            user.password = hashedPassword;
-        }
     }
 });
 
-User.sync({alter: true}).then(r => console.log("success")).catch(() => console.log('failed'))
