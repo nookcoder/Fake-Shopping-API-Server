@@ -1,29 +1,26 @@
 import express from 'express'
 import {
   createProduct,
+  deleteProduct,
   getAllProduct,
   getProductById,
   updateProduct,
 } from './product.service'
 
 const productRouter = express.Router()
-/**
- * create new product
- */
-productRouter.post('/new', createProduct)
+
+productRouter
+  .route('/')
+  .get(getAllProduct) // get all products
+  .post(createProduct) // create new product
 
 /**
  * update product
  */
-productRouter.post('/update/:id', updateProduct)
+productRouter
+  .route('/:id')
+  .get(getProductById) // get a product by id
+  .post(updateProduct) // update a product by id
+  .delete(deleteProduct) // delete a product by id
 
-/**
- * get all of products
- */
-productRouter.get('/', getAllProduct)
-
-/**
- * get a product
- */
-productRouter.get('/:id', getProductById)
 export default productRouter

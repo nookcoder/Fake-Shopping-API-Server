@@ -51,6 +51,11 @@ export async function createProduct(req: Request, res: Response) {
   }
 }
 
+/**
+ * 상품 정보 업데이트
+ * @param req
+ * @param res
+ */
 export const updateProduct = async (req: Request, res: Response) => {
   try {
     const product = await Product.findOne({
@@ -69,7 +74,9 @@ export const updateProduct = async (req: Request, res: Response) => {
 
     const { ...result } = req.body
     await product.update(result)
-    return res.send('hello')
+    return res.send({
+      status: 200,
+    })
   } catch (e) {
     return res.send(createErrorMessage(ERROR_STATUS.INTERNAL_SERVER_ERROR, e))
   }
@@ -118,5 +125,30 @@ export const getProductById = async (req: Request, res: Response) => {
     })
   } catch (e) {
     res.send(createErrorMessage(ERROR_STATUS.INTERNAL_SERVER_ERROR, e))
+  }
+}
+
+export const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const product = await Product.findOne({
+      where: {
+        product_id: req.params.id,
+      },
+    })
+
+    if (!product) {
+      return res.send({
+        status: 404,
+        error: 'Not Found',
+        message: `Not Found A Product id=${req.params.id}`,
+      })
+    }
+
+    await product.destroy()
+    return res.send({
+      status: 200,
+    })
+  } catch (e) {
+    return res.send(createErrorMessage(ERROR_STATUS.INTERNAL_SERVER_ERROR, e))
   }
 }
