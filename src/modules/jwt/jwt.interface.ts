@@ -1,7 +1,7 @@
 /**
- * 발행된 토큰 Return Value 
+ * 발행된 토큰 Return Value
  */
-export interface ISignedJwt{
-    access_token: string;
-    refresh_token: string;
+export interface ISignedJwt {
+  access_token: string;
+  refresh_token: string;
 }

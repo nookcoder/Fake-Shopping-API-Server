@@ -3,8 +3,13 @@
  * @param keyExpected
  * @param keyRequested
  */
-export function checkKeyOfRequestBody(keyExpected: string[], keyRequested: string[]):boolean {
-    return keyRequested.filter(key => {
-        return !keyExpected.includes(key)
-    }).length === 0;
+export function checkKeyOfRequestBody(
+  keyExpected: string[],
+  keyRequested: string[]
+): boolean {
+  return (
+    keyRequested.filter((key) => {
+      return !keyExpected.includes(key);
+    }).length === 0
+  );
 }
