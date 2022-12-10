@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express'
 import { initOrGetSequelize } from './src/modules/sequelize'
 import bodyParser from 'body-parser'
-import { productRouter, userRouter } from './src/api'
+import { orderRouter, productRouter, userRouter } from './src/api'
 
 const app: Express = express()
 const port = 4000
@@ -13,6 +13,7 @@ function initExpressApp() {
   app.use(bodyParser.json())
   app.use('/user', userRouter)
   app.use('/product', productRouter)
+  app.use('/order', orderRouter)
   app.get('/', (req: Request, res: Response) => {
     res.send('Hello world')
   })

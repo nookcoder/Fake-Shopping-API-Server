@@ -1,3 +1,4 @@
 import userRouter from './user'
 import productRouter from './product'
-export { userRouter, productRouter }
+import orderRouter from './order'
+export { userRouter, productRouter, orderRouter }
