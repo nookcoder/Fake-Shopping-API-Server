@@ -11,10 +11,9 @@ const orderRouter = express.Router()
 
 orderRouter
   .route('/')
-  .get(authMiddlewareByJwt, getAllOrder) // 모든 주문 조회
-  .post(authMiddlewareByJwt, createOrder) // 주문 생성
-  .patch(authMiddlewareByJwt, cancelOrder) // 주문 상태 취소 ORDER_STATUS.CANCELED
-  .delete(authMiddlewareByJwt, deleteOrder) // 주문 삭제
+  .get(getAllOrder) // 모든 주문 조회
+  .patch(cancelOrder) // 주문 상태 취소 ORDER_STATUS.CANCELED
+  .delete(deleteOrder) // 주문 삭제
 
 orderRouter
   .route('/certificated')

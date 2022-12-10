@@ -7,8 +7,18 @@ User.hasMany(Order, {
   onDelete: 'cascade',
   hooks: true,
 })
+Product.hasMany(Order, {
+  as: 'orders',
+  onDelete: 'cascade',
+  hooks: true,
+})
 Order.belongsTo(User, {
-  as: 'user',
+  as: 'owner',
+  onDelete: 'cascade',
+  hooks: true,
+})
+Order.belongsTo(Product, {
+  as: 'product_ordered',
   onDelete: 'cascade',
   hooks: true,
 })

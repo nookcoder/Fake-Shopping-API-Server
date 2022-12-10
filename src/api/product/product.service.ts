@@ -108,7 +108,7 @@ export const getProductById = async (req: Request, res: Response) => {
   try {
     const product = await Product.findOne({
       where: {
-        product_id: req.params.id,
+        id: req.params.id,
       },
     })
 

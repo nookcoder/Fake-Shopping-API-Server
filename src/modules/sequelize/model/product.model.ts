@@ -7,7 +7,7 @@ export class Product extends Model {}
 
 Product.init(
   {
-    product_id: {
+    id: {
       type: DataTypes.INTEGER.UNSIGNED,
       primaryKey: true,
       autoIncrement: true,
