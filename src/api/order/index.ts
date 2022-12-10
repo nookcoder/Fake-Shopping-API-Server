@@ -17,7 +17,7 @@ orderRouter
   .delete(authMiddlewareByJwt, deleteOrder) // 주문 삭제
 
 orderRouter
-  .route('/with_certificated')
+  .route('/certificated')
   .get(authMiddlewareByJwt, getAllOrder)
   .post(authMiddlewareByJwt, createOrder)
   .patch(authMiddlewareByJwt, cancelOrder)
