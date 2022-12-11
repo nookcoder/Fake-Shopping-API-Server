@@ -5,10 +5,10 @@ import { User } from './user.model'
 
 const sequelize = initOrGetSequelize()
 
-const ORDER_STATUS = {
+export const ORDER_STATUS = {
   PENDING: 'pending',
   SHIPPING: 'shipping',
-  COMPLETED: 'completed',
+  COMPLETE: 'complete',
   CANCELED: 'canceled',
   CANCEL_REQUEST: 'cancel_request',
 }
@@ -16,7 +16,7 @@ const ORDER_STATUS = {
 export class Order extends Model {}
 Order.init(
   {
-    order_id: {
+    id: {
       type: DataTypes.INTEGER.UNSIGNED,
       primaryKey: true,
       autoIncrement: true,

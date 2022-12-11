@@ -1,5 +1,6 @@
-import { Request, Response } from 'express'
+import { raw, Request, Response } from 'express'
 import { Order, Product, User } from '../../modules/sequelize/model'
+import { ORDER_STATUS } from '../../modules/sequelize/model/order.model'
 
 export const createOrder = async (req: any, res: Response) => {
   try {
@@ -33,8 +34,95 @@ export const getAllOrder = async (req: Request, res: Response) => {
   })
 }
 
-export const getAOrder = async (req: Request, res: Response) => {}
+export const getAOrder = async (req: Request, res: Response) => {
+  try {
+    const order = await Order.findOne({
+      where: {
+        id: req.params.id,
+      },
+      include: ['owner', 'product_ordered'],
+    })
 
-export const cancelOrder = async (rqe: Request, res: Response) => {}
+    if (!order) {
+      return res.status(404).send({
+        error: 'Not Found',
+        message: `Not Found Order id=${req.params.id}`,
+      })
+    }
+
+    return res.status(200).send({
+      ok: true,
+      data: order,
+    })
+  } catch (e) {
+    return res.status(500).send({
+      error: e,
+    })
+  }
+}
+
+export const changeStatusToShipping = async (req: Request, res: Response) => {
+  const { ok } = await updateStatus(+req.params.id, 'shipping')
+  if (ok) {
+    return res.status(201).send({
+      ok,
+      message: 'Change Order Status to "shipping"',
+    })
+  }
+
+  return res.status(404).send({
+    ok,
+    message: `Not Found Order id=${req.params.id}`,
+  })
+}
+
+export const changeStatusToComplete = async (req: Request, res: Response) => {
+  const { ok } = await updateStatus(+req.params.id, 'complete')
+  if (ok) {
+    return res.status(201).send({
+      ok,
+      message: 'Change Order Status to "complete"',
+    })
+  }
+
+  return res.status(404).send({
+    ok,
+    message: `Not Found Order id=${req.params.id}`,
+  })
+}
+
+export const cancelOrder = async (req: Request, res: Response) => {
+  const { ok } = await updateStatus(+req.params.id, 'canceled')
+  if (ok) {
+    return res.status(201).send({
+      ok,
+      message: 'Change Order Status to "canceled"',
+    })
+  }
+
+  return res.status(404).send({
+    ok,
+    message: `Not Found Order id=${req.params.id}`,
+  })
+}
 
 export const deleteOrder = async (req: Request, res: Response) => {}
+
+const updateStatus = async (
+  id: number,
+  type: 'shipping' | 'complete' | 'canceled'
+): Promise<{ ok: boolean }> => {
+  const order = await Order.findByPk(id)
+  if (order) {
+    await order.update({
+      order_status: type,
+    })
+    return {
+      ok: true,
+    }
+  }
+
+  return {
+    ok: false,
+  }
+}
