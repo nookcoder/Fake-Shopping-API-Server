@@ -1,16 +1,17 @@
-import { Sequelize } from "sequelize";
+import { Sequelize } from 'sequelize'
+import { IInitOrGetSequelize } from './sequelize.interface'
 
-let sequelize: Sequelize;
+let sequelize: Sequelize
+export const initOrGetSequelize = (input: IInitOrGetSequelize): Sequelize => {
+  sequelize = new Sequelize(input.database, input.username, input.password, {
+    dialect: input.dialect ?? 'mysql',
+    host: input.host ?? 'localhost',
+    port: input.port ?? 3306,
+    ...input.option,
+  })
+  return sequelize
+}
 
-export function initOrGetSequelize(): Sequelize {
-  if (sequelize) {
-    return sequelize;
-  }
-  sequelize = new Sequelize("test", "root", "", {
-    dialect: "mysql",
-    host: "localhost",
-    port: 3306,
-    sync: { force: true },
-  });
-  return sequelize;
+export function getSequelize() {
+  return sequelize
 }

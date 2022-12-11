@@ -2,6 +2,9 @@ import express, { Express, Request, Response } from 'express'
 import { initOrGetSequelize } from './src/modules/sequelize'
 import bodyParser from 'body-parser'
 import { orderRouter, productRouter, userRouter } from './src/api'
+import { IInitOrGetSequelize } from './src/modules/sequelize/sequelize.interface'
+import { initModel } from './src/modules/sequelize/model'
+import { checkSequelizeInput } from './src/utils/validation/validation.function'
 
 const app: Express = express()
 const port = 4000
@@ -25,11 +28,14 @@ function initExpressApp() {
 /**
  * API 서버 실행
  */
-export async function startFakeServer() {
-  const sequelize = await initOrGetSequelize()
+export async function startFakeServer(input: IInitOrGetSequelize) {
   try {
+    checkSequelizeInput(input)
+    const sequelize = await initOrGetSequelize(input)
+    initModel()
     await sequelize.authenticate()
-    await sequelize.sync({ force: true })
+    await sequelize.sync()
+
     console.log('Connection has been established successfully.')
     initExpressApp()
   } catch (error) {
